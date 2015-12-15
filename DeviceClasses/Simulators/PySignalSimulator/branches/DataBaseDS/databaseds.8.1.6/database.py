@@ -71,7 +71,7 @@ def set_db_name(db_name):
 
 def get_db_name():
     return DB_NAME
-
+  
 def catched(f):
     import traceback
     def wrap(*args,**kwargs):
@@ -203,7 +203,12 @@ class DataBase (PyTango.Device_4Impl):
         #----- PROTECTED REGION ID(DataBase.init_device) ENABLED START -----#
         m = __import__('db_access.%s' % (options.db_access),None,None,
                        'db_access.%s' % (options.db_access))
-        self.db = m.get_db()
+        if options.db_file:
+          print '>'*80
+          print options.db_file
+          self.db = m.get_db(options.db_file)
+        else:
+          self.db = m.get_db()
 
         self.set_state(PyTango.DevState.ON)
 
@@ -2936,6 +2941,7 @@ def main():
                             help="database type")
         parser.add_argument("-e", "--embedded",dest="embedded",default=False,
                             action="store_true")
+        parser.add_argument("-f", "--db_file",dest="db_file",default="tango_database.db")
         parser.add_argument('argv',nargs=argparse.REMAINDER)
         options = parser.parse_args()
         options.argv = ["DataBaseds"] + options.argv
@@ -2945,6 +2951,7 @@ def main():
                           help="database type")
         parser.add_option("-e","--embedded",dest="embedded",default=False,
                           action="store_true")
+        parser.add_option("-f", "--db_file",dest="db_file",default="tango_database.db")
         (options,args) = parser.parse_args()
         options.argv = ["DataBaseds"] + args
 
