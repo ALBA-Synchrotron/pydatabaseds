@@ -12,6 +12,16 @@ th_exc = PyTango.Except.throw_exception
 
 from db_errors import *
 
+DB_FILE = "tango_database.db"
+
+def set_db_file(db_name):
+    global DB_FILE
+    DB_FILE = db_name
+    return DB_FILE
+
+def get_db_file():
+    return DB_FILE  
+
 try:
   from concurrent.futures import ThreadPoolExecutor
   Executor = ThreadPoolExecutor(1)
@@ -91,7 +101,9 @@ class Tango_dbapi2(object):
 
     DB_API_NAME = 'sqlite3'
 
-    def __init__(self, db_name="tango_database.db", history_depth=10, fire_to_starter=True):
+    def __init__(self, db_name=None, history_depth=10, fire_to_starter=True):
+        db_name = db_name or get_db_file()
+        print('>'*30+' Tango_dbapi2(%s)'%db_name)
         self._db_api = None
         self._db_conn = None
         self.db_name = db_name
@@ -1634,7 +1646,8 @@ def main():
     db.add_device("MyServer/my1", ("a/b/c", ("a", "b", "c")), "MyClass")
     db.close_db()
 
-def get_db():
+def get_db(db_name=None):
+    if db_name: set_db_file(db_name)
     return Executor.submit(sqlite3).result()
 
 if __name__ == "__main__":
