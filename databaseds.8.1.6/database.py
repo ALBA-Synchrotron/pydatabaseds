@@ -2457,6 +2457,12 @@ class DataBase (PyTango.Device_4Impl):
          - lvalue[n] : =0 if svalue[n] is null else =1
          (last lvalue -1) is number of rows, (last lvalue) is number of fields
         :rtype: PyTango.DevVarLongStringArray """
+        
+        #@TODO : IT FAILS TO DELIVER THE RIGHT NUMBER OF ROWS/COLUMNS AS NEEDED BY TAURUS
+        # SEE https://sourceforge.net/p/tauruslib/tickets/148/
+        
+        raise Exception('FaultyImplementation!, sorry')
+        
         self.debug_stream("In " + self.get_name() + ".DbMySqlSelect()")
         argout = [0], ['']
         #----- PROTECTED REGION ID(DataBase.DbMySqlSelect) ENABLED START -----#
@@ -2838,9 +2844,10 @@ class DataBaseClass(PyTango.DeviceClass):
         'DbDeleteAllDeviceAttributeProperty':
             [[PyTango.DevVarStringArray, "str[0] = device name\nStr[1]...str[n] = attribute name(s)"],
             [PyTango.DevVoid, "none"]],
-        'DbMySqlSelect':
-            [[PyTango.DevString, "MySql Select command"],
-            [PyTango.DevVarLongStringArray, "MySql Select command result\n - svalues : select results\n - lvalue[n] : =0 if svalue[n] is null else =1\n (last lvalue -1) is number of rows, (last lvalue) is number of fields"]],
+        #@TODO: FAILS TO DELIVER RIGHT NUMBER OF COLUMNS, SEE https://sourceforge.net/p/tauruslib/tickets/148/
+        #'DbMySqlSelect':
+            #[[PyTango.DevString, "MySql Select command"],
+            #[PyTango.DevVarLongStringArray, "MySql Select command result\n - svalues : select results\n - lvalue[n] : =0 if svalue[n] is null else =1\n (last lvalue -1) is number of rows, (last lvalue) is number of fields"]],
         'DbGetCSDbServerList':
             [[PyTango.DevVoid, "none"],
             [PyTango.DevVarStringArray, "List of host:port with one element for each database server"]],
