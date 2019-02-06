@@ -2,6 +2,8 @@
 Usage
 -----
 
+In python 2.7 it requires tango, fandango, sqlite and futures modules
+
 To run it as localhost:10000 use::
 
    git clone https://github.com/ALBA-Synchrotron/pydatabaseds
