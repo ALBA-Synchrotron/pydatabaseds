@@ -1,8 +1,14 @@
 
+In python 2.7 it requires tango, fandango, sqlite and futures modules
+
+This device server has been tested against PyTango 9.3 ... but PyTango itself contains a newer version using modern API:
+
+https://github.com/tango-controls/pytango/blob/develop/tango/databaseds
+
+So, probably it just becomes a legacy project or both should be merged at some point
+
 Usage
 -----
-
-In python 2.7 it requires tango, fandango, sqlite and futures modules
 
 To run it as localhost:10000 use::
 
